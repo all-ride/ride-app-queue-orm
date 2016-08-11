@@ -1,0 +1,23 @@
+{
+    "name": "ride/app-queue-orm",
+    "description": "ORM integration for the Ride queue.",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Joris Vandeweerd",
+            "email": "joris@statik.be"
+        }
+    ],
+    "require": {
+        "ride/app": ">=0.8.1",
+        "ride/lib-orm": ">=0.11.0",
+        "ride/lib-queue": ">=0.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ride\\application\\orm\\model\\QueueJobStatusModel": ["src/"],
+            "ride\\application\\queue\\": ["src/"]
+        }
+    }
+}

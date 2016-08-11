@@ -1,0 +1,9 @@
+{
+    "dependencies": [
+        {
+            "interfaces": "ride\\library\\queue\\QueueManager",
+            "class": "ride\\application\\queue\\OrmQueueManager",
+            "id": "orm"
+        }
+    ]
+}
