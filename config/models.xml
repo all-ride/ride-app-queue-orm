@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<models>
+    <model name="QueueJobStatus" modelClass="ride\application\orm\model\QueueJobStatusModel" entryClass="ride\application\queue\OrmQueueJobStatus">
+        <field name="queue" type="string">
+            <validation name="required" />
+        </field>
+        <field name="priority" type="integer" default="100">
+            <validation name="minmax">
+                <parameter name="minimum" value="0"/>
+            </validation>
+        </field>
+        <field name="className" type="string">
+            <validation name="required" />
+        </field>
+        <field name="data" type="binary">
+            <validation name="required" />
+        </field>
+        <field name="status" type="string">
+            <validation name="required" />
+        </field>
+        <field name="description" type="text" />
+        <field name="dateScheduled" type="datetime" />
+
+	    <index name="queueIndex1">
+	        <indexField name="queue" />
+	        <indexField name="status" />
+	        <indexField name="dateScheduled" />
+	    </index>
+	    <index name="queueIndex2">
+	        <indexField name="queue" />
+	        <indexField name="status" />
+	        <indexField name="id" />
+	    </index>
+	    <index name="queueIndex3">
+	        <indexField name="status" />
+	        <indexField name="dateScheduled" />
+	    </index>
+
+	    <format name="title">#{id} ({className})</format>
+        <format name="teaser">{queue}: {status}</format>
+
+        <option name="behaviour.date" value="true" />
+    </model>
+</models>
