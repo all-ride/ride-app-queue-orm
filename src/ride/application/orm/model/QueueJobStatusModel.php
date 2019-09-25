@@ -100,6 +100,7 @@ class QueueJobStatusModel extends GenericModel implements QueueManager {
         $entry->setQueueJob(clone $queueJob);
         $entry->setStatus(self::STATUS_WAITING);
         $entry->setDateScheduled($dateScheduled);
+        $entry->setPriority($queueJob->getPriority());
 
         $this->save($entry);
 
@@ -117,7 +118,7 @@ class QueueJobStatusModel extends GenericModel implements QueueManager {
     public function popJobFromQueue($queue) {
         $query = $this->createQuery();
         $query->addCondition('{queue} = %1% AND {status} = %2% AND ({dateScheduled} IS NULL OR {dateScheduled} <= %3%)', $queue, self::STATUS_WAITING, time());
-        $query->addOrderBy('{id} ASC');
+        $query->addOrderBy('{priority} ASC, {id} ASC');
 
         $entry = $query->queryFirst();
         if (!$entry) {
@@ -163,8 +164,19 @@ class QueueJobStatusModel extends GenericModel implements QueueManager {
      */
     public function rescheduleJob(QueueJob $queueJob, $dateScheduled) {
         $entry = $this->createProxy($queueJob->getJobId());
+
+        $canReschedule = false;
+        if ($queueJob->getMaxSchedules() === true || $queueJob->getMaxSchedules() > $entry->getNumSchedules()) {
+            $canReschedule = true;
+        }
+
+        if (!$canReschedule) {
+            throw new QueueException('Cannot reschedule job: max schedules reached');
+        }
+
         $entry->setStatus(self::STATUS_WAITING);
         $entry->setDateScheduled($dateScheduled);
+        $entry->setNumSchedules($entry->getNumSchedules() + 1);
 
         $this->save($entry);
     }
