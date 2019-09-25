@@ -20,23 +20,24 @@
         </field>
         <field name="description" type="text" />
         <field name="dateScheduled" type="datetime" />
+        <field name="numSchedules" type="integer" default="1" />
 
-	    <index name="queueIndex1">
-	        <indexField name="queue" />
-	        <indexField name="status" />
-	        <indexField name="dateScheduled" />
-	    </index>
-	    <index name="queueIndex2">
-	        <indexField name="queue" />
-	        <indexField name="status" />
-	        <indexField name="id" />
-	    </index>
-	    <index name="queueIndex3">
-	        <indexField name="status" />
-	        <indexField name="dateScheduled" />
-	    </index>
+        <index name="queueIndex1">
+            <indexField name="queue" />
+            <indexField name="status" />
+            <indexField name="dateScheduled" />
+        </index>
+        <index name="queueIndex2">
+            <indexField name="queue" />
+            <indexField name="status" />
+            <indexField name="id" />
+        </index>
+        <index name="queueIndex3">
+            <indexField name="status" />
+            <indexField name="dateScheduled" />
+        </index>
 
-	    <format name="title">#{id} ({className})</format>
+        <format name="title">#{id} ({className})</format>
         <format name="teaser">{queue}: {status}</format>
 
         <option name="behaviour.date" value="true" />
